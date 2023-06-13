@@ -71,8 +71,11 @@ def test_model(model: nn.Module, test_loader: DataLoader, num_epochs, device=Non
   start_time = time.time()
   test_acc_list = []
 
-  for epoch in range(num_epochs):
+  outer_tqdm = tqdm(range(num_epochs), desc=f"Testing | Epoch {epoch+1}/{num_epochs} ", leave=False, position=0)
+
+  for epoch in outer_tqdm:
     model.eval()
+
     with torch.no_grad():
       test_acc = compute_accuracy(model, test_loader, device=device)
       print(f"Accuracy after {epoch+1} epoch(s) ===> {test_acc:.2f}")
