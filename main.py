@@ -6,8 +6,8 @@ from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR10
 from torchvision.transforms import transforms
 
-from .model import AlexNet
-from .utils import train_model, test_model
+from model import AlexNet
+from utils import train_model, test_model
 
 
 # Hyperparameters
@@ -37,7 +37,7 @@ test_transforms = transforms.Compose([
 
 
 # Path
-cifar10_path = '/data/CIFAR-10'
+cifar10_path = './data/CIFAR-10'
 
 # Trainset and Trainloader
 train_set = CIFAR10(root=cifar10_path, train=True, download=True, transform=train_transforms)
