@@ -11,8 +11,8 @@ from utils import train_model, test_model
 
 
 # Hyperparameters
-BATCH_SIZE = 128
-NUM_EPOCHS = 2
+BATCH_SIZE = 256
+NUM_EPOCHS = 200
 RANDOM_SEED = 123
 NUM_CLASSES = 10 # Number of classes in the CIFAR-10 Dataset
 NUM_WORKERS = os.cpu_count()
