@@ -1,5 +1,7 @@
 import torch
 import torch.nn as nn
+
+
 class AlexNet(nn.Module):
   """
   Implementation from scratch of the AlexNet-model described in https://dl.acm.org/doi/pdf/10.1145/3065386
