@@ -52,7 +52,7 @@ model = AlexNet(num_classes=NUM_CLASSES)
 model = model.to(DEVICE)
 
 # Optimizer
-optimizer = Adam(model.parameters(), lr=0.1)
+optimizer = Adam(model.parameters(), lr=0.01)
 
 # Loss Function
 loss_function = nn.CrossEntropyLoss()
@@ -62,4 +62,5 @@ minibatch_loss_list, train_acc_list = train_model(model=model, num_epochs=NUM_EP
                                                   loss_function=loss_function, optimizer=optimizer, device=DEVICE)
 
 # Testing
-test_acc_list = test_model(model=model, test_loader=test_loader, num_epochs=NUM_EPOCHS, device=DEVICE)
+test_acc_list = test_model(model=model, test_loader=test_loader, num_epochs=NUM_EPOCHS,
+                            loss_function=loss_function, optimizer=optimizer, device=DEVICE)

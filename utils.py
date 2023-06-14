@@ -93,7 +93,7 @@ def train_model(model: nn.Module, num_epochs: int, train_loader: DataLoader,
     return minibatch_loss_list, train_acc_list
 
 
-def test_model(model: nn.Module, test_loader: DataLoader, num_epochs, device=None):
+def test_model(model: nn.Module, test_loader: DataLoader, num_epochs, loss_function, optimizer, device=None):
   """
   Helper function used for testing purposes.
 
@@ -101,6 +101,8 @@ def test_model(model: nn.Module, test_loader: DataLoader, num_epochs, device=Non
         model (nn.Module): the used CNN model
         test_loader (DataLoader): the test loader
         num_epochs (int): number of epochs
+        loss_function: the loss function that will be used
+        optimizer: the used optimizer
         device: the used device
 
     Returns:
@@ -109,15 +111,29 @@ def test_model(model: nn.Module, test_loader: DataLoader, num_epochs, device=Non
   start_time = time.time()
   test_acc_list = []
 
-  outer_tqdm = tqdm(range(num_epochs), desc=f"Testing | Epoch {epoch+1}/{num_epochs} ", leave=True, position=0)
-
-  for epoch in outer_tqdm:
+  for epoch in range(num_epochs):
     # Putting the model in evaluation mode
     model.eval()
 
+    inner_tqdm = tqdm(test_loader, desc=f"Testing | Epoch {epoch+1}/{num_epochs} ", leave=True, position=0)
+
+    for batch_idx, (features, targets) in enumerate(inner_tqdm):
+      features = features.to(device)
+      targets = targets.to(device)
+
+      # Forward && Backward Propagation
+      logits = model(features)
+      loss = loss_function(logits, targets)
+      optimizer.zero_grad()
+      loss.backward()
+
+      # Update model parameters
+      optimizer.step()
+
     with torch.no_grad():
+      print("Calculating accuracy ....")
       test_acc = compute_accuracy(model, test_loader, device=device)
-      print(f"Accuracy after {epoch+1} epoch(s) ===> {test_acc:.2f}")
+      print(f"Accuracy after {epoch+1} epoch(s) ===> {test_acc:.2f} %")
       test_acc_list.append(test_acc.item())
 
   # Total time
