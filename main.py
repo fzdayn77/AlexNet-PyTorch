@@ -1,7 +1,7 @@
 import os
 import torch
 import torch.nn as nn
-from torch.optim import Adam
+from torch.optim import SGD
 from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR10
 from torchvision.transforms import transforms
@@ -52,7 +52,7 @@ model = AlexNet(num_classes=NUM_CLASSES)
 model = model.to(DEVICE)
 
 # Optimizer
-optimizer = Adam(model.parameters(), lr=0.01)
+optimizer = SGD(model.parameters(), momentum=0.9, lr=0.01)
 
 # Loss Function
 loss_function = nn.CrossEntropyLoss()

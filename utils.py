@@ -53,6 +53,7 @@ def train_model(model: nn.Module, num_epochs: int, train_loader: DataLoader,
     """
     start_time = time.time()
     minibatch_loss_list, train_acc_list, = [], []   
+    print("Begin training ...")
 
     for epoch in range(num_epochs):
         # Putting the model in training mode
@@ -81,6 +82,7 @@ def train_model(model: nn.Module, num_epochs: int, train_loader: DataLoader,
         # Putting model in evalution mode
         model.eval()
         with torch.no_grad():
+          print("Calculating accuracy ....")
           train_acc = compute_accuracy(model, train_loader, device=device)
           print(f"Accuracy after {epoch+1} epoch(s) ===> {train_acc:.2f}")
           train_acc_list.append(train_acc.item())
@@ -89,6 +91,7 @@ def train_model(model: nn.Module, num_epochs: int, train_loader: DataLoader,
     # Total time
     elapsed = (time.time() - start_time) / 60
     print(f'Total Training Time: {elapsed:.2f} min')
+    print("Training Done!")
 
     return minibatch_loss_list, train_acc_list
 
@@ -110,6 +113,7 @@ def test_model(model: nn.Module, test_loader: DataLoader, num_epochs, loss_funct
   """
   start_time = time.time()
   test_acc_list = []
+  print("Begin testing ...")
 
   for epoch in range(num_epochs):
     # Putting the model in evaluation mode
@@ -139,5 +143,6 @@ def test_model(model: nn.Module, test_loader: DataLoader, num_epochs, loss_funct
   # Total time
   elapsed = (time.time() - start_time) / 60
   print(f'Total Testing Time: {elapsed:.2f} min')
+  print("Testing Done!")
 
   return test_acc_list
