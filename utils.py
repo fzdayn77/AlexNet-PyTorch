@@ -6,6 +6,17 @@ import time
 
 
 def compute_accuracy(model, data_loader, device):
+    """
+    Calculates the accuracy of a given data loader.
+
+    Parameters:
+        model (nn.Module): the used CNN model
+        data_loader (DataLoader): train loader or test loader
+        device: the used device
+    
+    Returns:
+        (float): the calculated accuracy
+    """
     with torch.no_grad():
         correct_pred, num_examples = 0, 0
         for i, (features, targets) in enumerate(data_loader):
@@ -24,7 +35,22 @@ def compute_accuracy(model, data_loader, device):
 
 def train_model(model: nn.Module, num_epochs: int, train_loader: DataLoader,
                 loss_function, optimizer, device=None, logging_interval=50):
-  
+    """
+    Helper function used for training purposes.
+
+    Parameters:
+        model (nn.Module): the used CNN model
+        num_epochs (int): number of epochs
+        train_loader (DataLoader): the train loader
+        loss_function: the loss function that will be used
+        optimizer: the used optimizer
+        device: the used device
+        logging_interval (int): number of minibatches to log after
+
+    Returns:
+        minibatch_loss_list (List): list of all calculated losses in the minibatch
+        train_acc_list (List): list of all calculated accuracies during the training phase
+    """
     start_time = time.time()
     minibatch_loss_list, train_acc_list, = [], []   
 
@@ -68,12 +94,25 @@ def train_model(model: nn.Module, num_epochs: int, train_loader: DataLoader,
 
 
 def test_model(model: nn.Module, test_loader: DataLoader, num_epochs, device=None):
+  """
+  Helper function used for testing purposes.
+
+    Parameters:
+        model (nn.Module): the used CNN model
+        test_loader (DataLoader): the test loader
+        num_epochs (int): number of epochs
+        device: the used device
+
+    Returns:
+        test_acc_list (List): list of all calculated accuracies during the testing phase
+  """
   start_time = time.time()
   test_acc_list = []
 
   outer_tqdm = tqdm(range(num_epochs), desc=f"Testing | Epoch {epoch+1}/{num_epochs} ", leave=False, position=0)
 
   for epoch in outer_tqdm:
+    # Putting the model in evaluation mode
     model.eval()
 
     with torch.no_grad():

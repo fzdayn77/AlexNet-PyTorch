@@ -1,6 +1,10 @@
 import torch
 import torch.nn as nn
 class AlexNet(nn.Module):
+  """
+  Implementation from scratch of the AlexNet-model described in https://dl.acm.org/doi/pdf/10.1145/3065386
+  with some changes so that it works on the CIFAR-10 dataset.
+  """
   def __init__(self, num_classes: int):
       super().__init__()
       self.num_classes = num_classes
@@ -43,7 +47,6 @@ class AlexNet(nn.Module):
           # Output layer
           torch.nn.Linear(4096, self.num_classes)
       )
-
 
   def forward(self, x):
       x = self.features(x)
