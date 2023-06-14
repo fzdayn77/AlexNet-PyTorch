@@ -91,7 +91,7 @@ def train_model(model: nn.Module, num_epochs: int, train_loader: DataLoader,
     # Total time
     elapsed = (time.time() - start_time) / 60
     print(f'Total Training Time: {elapsed:.2f} min')
-    print("Training Done!")
+    print("Training Done!\n")
 
     return minibatch_loss_list, train_acc_list
 
@@ -143,6 +143,6 @@ def test_model(model: nn.Module, test_loader: DataLoader, num_epochs, loss_funct
   # Total time
   elapsed = (time.time() - start_time) / 60
   print(f'Total Testing Time: {elapsed:.2f} min')
-  print("Testing Done!")
+  print("Testing Done!\n")
 
   return test_acc_list
