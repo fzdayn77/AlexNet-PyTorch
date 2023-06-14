@@ -5,18 +5,31 @@ from torch.optim import SGD
 from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR10
 from torchvision.transforms import transforms
+import matplotlib as plt
 
 from model import AlexNet
-from utils import train_model, test_model
+from utils import train_model, test_model, compute_accuracy, compute_confusion_matrix
+from plot_utils import plot_confusion_matrix, plot_training_loss, plot_accuracy
 
 
 # Hyperparameters
-BATCH_SIZE = 256
+BATCH_SIZE = 128
 NUM_EPOCHS = 200
-RANDOM_SEED = 123
 NUM_CLASSES = 10 # Number of classes in the CIFAR-10 Dataset
-NUM_WORKERS = os.cpu_count()
 DEVICE = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
+
+
+# CIFAR-10 classes
+class_dict = {0: 'airplane',
+              1: 'automobile',
+              2: 'bird',
+              3: 'cat',
+              4: 'deer',
+              5: 'dog',
+              6: 'frog',
+              7: 'horse',
+              8: 'ship',
+              9: 'truck'}
 
 
 # Transformations
@@ -41,11 +54,11 @@ cifar10_path = './data/CIFAR-10'
 
 # Trainset and Trainloader
 train_set = CIFAR10(root=cifar10_path, train=True, download=True, transform=train_transforms)
-train_loader = DataLoader(train_set, batch_size=BATCH_SIZE, shuffle=True, num_workers=NUM_WORKERS, persistent_workers=True)
+train_loader = DataLoader(train_set, batch_size=BATCH_SIZE, shuffle=True)
 
 # Testset and Testloader
 test_set = CIFAR10(root=cifar10_path, train=False, download=True, transform=test_transforms)
-test_loader = DataLoader(test_set, batch_size=BATCH_SIZE, shuffle=False, num_workers=NUM_WORKERS, persistent_workers=True)
+test_loader = DataLoader(test_set, batch_size=BATCH_SIZE, shuffle=False)
 
 # AlexNet model
 model = AlexNet(num_classes=NUM_CLASSES)
@@ -64,3 +77,24 @@ minibatch_loss_list, train_acc_list = train_model(model=model, num_epochs=NUM_EP
 # Testing
 test_acc_list = test_model(model=model, test_loader=test_loader, num_epochs=NUM_EPOCHS,
                             loss_function=loss_function, optimizer=optimizer, device=DEVICE)
+
+# Plotting training loss
+plot_training_loss(minibatch_loss_list=minibatch_loss_list,
+                   num_epochs=NUM_EPOCHS,
+                   iter_per_epoch=len(train_loader),
+                   results_dir=None,
+                   averaging_iterations=100)
+plt.show()
+
+# Plotting accuracies
+plot_accuracy(train_acc_list=train_acc_list,
+              test_acc_list=test_acc_list,
+              results_dir=None)
+plt.ylim([60, 100])
+plt.show()
+
+# Confusion matrix
+model.cpu()
+mat = compute_confusion_matrix(model=model, data_loader=test_loader, device=torch.device('cpu'))
+plot_confusion_matrix(mat, figsize=(8, 8), class_names=class_dict.values())
+plt.show()
