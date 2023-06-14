@@ -109,7 +109,7 @@ def test_model(model: nn.Module, test_loader: DataLoader, num_epochs, device=Non
   start_time = time.time()
   test_acc_list = []
 
-  outer_tqdm = tqdm(range(num_epochs), desc=f"Testing | Epoch {epoch+1}/{num_epochs} ", leave=False, position=0)
+  outer_tqdm = tqdm(range(num_epochs), desc=f"Testing | Epoch {epoch+1}/{num_epochs} ", leave=True, position=0)
 
   for epoch in outer_tqdm:
     # Putting the model in evaluation mode
