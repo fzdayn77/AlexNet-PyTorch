@@ -12,3 +12,4 @@
 ## Experiments
 
 ## License
+This repository is licensed under the [MIT Licenese](https://en.wikipedia.org/wiki/MIT_License) .
