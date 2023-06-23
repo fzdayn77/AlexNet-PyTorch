@@ -1,6 +1,7 @@
 # AlexNet-PyTorch
 
 ## Description
+This is an unofficial repository of the **[AlexNet-architecture](https://dl.acm.org/doi/pdf/10.1145/3065386)** on the **[CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html)** dataset using PyTorch.
 
 ## Table of contents
 - [Usage](#usage)
@@ -12,4 +13,4 @@
 ## Experiments
 
 ## License
-This repository is licensed under the [MIT Licenese](https://en.wikipedia.org/wiki/MIT_License) .
+This repository is licensed under the [MIT License](https://en.wikipedia.org/wiki/MIT_License) .
